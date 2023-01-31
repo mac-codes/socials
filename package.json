@@ -1,0 +1,25 @@
+{
+  "name": "socials",
+  "version": "1.0.0",
+  "description": "an API for a social media site",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mac-codes/socials.git"
+  },
+  "keywords": [],
+  "author": "McKenna Lawson",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mac-codes/socials/issues"
+  },
+  "homepage": "https://github.com/mac-codes/socials#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "moment": "^2.29.0",
+    "mongoose": "^5.10.7"
+  }
+}
