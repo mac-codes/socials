@@ -4,7 +4,7 @@
   "description": "an API for a social media site",
   "main": "index.html",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon index.js"
   },
   "repository": {
     "type": "git",
@@ -20,6 +20,7 @@
   "dependencies": {
     "express": "^4.17.1",
     "moment": "^2.29.0",
-    "mongoose": "^5.10.7"
+    "mongoose": "^5.10.7",
+    
   }
 }
