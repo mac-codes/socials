@@ -32,7 +32,7 @@ const userController = {
 createUser({ body }, res) {
   User.create(body)
   .then(dbUserData => res.json(dbUserData))
-  .catch(err => res.json(400)json(err));
+  .catch(err => res.json(400).json(err));
 },
 
 updateUser({ params, body }, res) {
@@ -47,4 +47,26 @@ updateUser({ params, body }, res) {
     .catch(err => res.status(400).json(err));
 },
 
-#bleh
+deleteUser({ params }, res) {
+  User.findOneDelete({ _id: params.id })
+    .then(dbUserData => {
+      if (!dbUserData) {
+        return res.status(404).json({ message: 'No user found by this ID!?'});
+      }
+    })
+},
+
+addFriend({ params }, res) {
+  User.findOneAndUpdate({ _id: params.id }, { $pull: {friends: params.friendId } }, { runValidators: true })
+    .then(dbUserData => {
+      if (!dbUserData) {
+        res.status(404).json({ message: 'No user found by this ID!?'})
+        return;
+      }
+      res.json(dbUserData);
+    })
+    .catch(err => res.status(400).json(err));
+},
+}
+
+module.exports = userControllers;
