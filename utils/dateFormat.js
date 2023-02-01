@@ -1,23 +1,98 @@
-const mongoose = require('mongoose');
-const express = require('express');
+const addDateSuffix = date => {
+  let dateStr = date.toString();
 
-require('dotenv').config();
+  // date string
+  const lastChar = dateStr.charAt(dateStr.length - 1);
 
-const app = express();
-const PORT = process.env.PORT || 3001;
+  if (lastChar === '1' && dateStr !== '11') {
+      dateStr = `${dateStr}st`;
+  } else if (lastChar === '2' && dateStr !== '12') {
+      dateStr = `${dateStr}nd`;
+  } else if (lastChar === '3' && dateStr !== '13') {
+      dateStr = `${dateStr}rd`;
+  } else {
+      dateStr = `${dateStr}th`;
+  }
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static('public'));
+  return dateStr;
+};
 
-app.use(require('./routes'));
+// timestamp, accepts the TS and an 'options' object as optional
+module.exports = (
+  timestamp,
+  { monthLength = 'short', dateSuffix = true } = {}
+) => {
+  let months;
 
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/socials', {
-  useFindAndModify: false,
-  useNewUrlParser: true,
-  useUnidentifiedTopology: true,
-});
+  if (monthLength === 'short') {
+      months = {
+          0: 'Jan',
+          1: 'Feb',
+          2: 'Mar',
+          3: 'Apr',
+          4: 'May',
+          5: 'Jun',
+          6: 'Jul',
+          7: 'Aug',
+          8: 'Sep',
+          9: 'Oct',
+          10: 'Nov',
+          11: 'Dec'
+      };
+  } else {
+      months = {
+          0: 'January',
+          1: 'February',
+          2: 'March',
+          3: 'April',
+          4: 'May',
+          5: 'June',
+          6: 'July',
+          7: 'August',
+          8: 'September',
+          9: 'October',
+          10: 'November',
+          11: 'December'
+      };
+  }
 
-mongoose.set('debug', true);
+  const dateObj = new Date(timestamp);
+  const formattedMonth = months[dateObj.getMonth()];
 
-app.listen(PORT, () => console.log(`🌍 Connected on localhost:${PORT}`));
+  let dayOfMonth;
+
+  if (dateSuffix) {
+      dayOfMonth = addDateSuffix(dateObj.getDate());
+  } else {
+      dayOfMonth = dateObj.getDate();
+  }
+
+  const year = dateObj.getFullYear();
+
+  let hour;
+  // check for 24-hr time
+  if (dateObj.getHours > 12) {
+      hour = Math.floor(dateObj.getHours() / 2);
+  } else {
+      hour = dateObj.getHours();
+  }
+  // if hour is 0 (12:00am), change it to 12
+  if (hour === 0) {
+      hour = 12;
+  }
+
+  const minutes = dateObj.getMinutes();
+
+  // 'am' or 'pm'
+  let periodOfDay;
+
+  if (dateObj.getHours() >= 12) {
+      periodOfDay = 'pm';
+  } else {
+      periodOfDay = 'am';
+  }
+
+  const formattedTimeStamp = `${formattedMonth} ${dayOfMonth}, ${year} at ${hour}:${minutes} ${periodOfDay}`;
+
+  return formattedTimeStamp;
+};
