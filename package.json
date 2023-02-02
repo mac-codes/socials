@@ -4,7 +4,7 @@
   "description": "an API for a social media site",
   "main": "index.html",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "nodemon server.js"
   },
   "repository": {
     "type": "git",
@@ -21,6 +21,9 @@
     "express": "^4.17.1",
     "moment": "^2.29.0",
     "mongoose": "^5.10.7",
-    
+    "dotenv": "16.0.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
   }
 }
