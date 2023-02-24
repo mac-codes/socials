@@ -1,5 +1,4 @@
-const { Thoughts } = require('../models/Thoughts');
-const User = require('../models/user');
+const { User, Thoughts } = require('../models');
 
 const thoughtController = {
   getAllThoughts(req, res) {
@@ -21,7 +20,7 @@ const thoughtController = {
         res.json(dbThoughtData);
       });
   },
-  AddThought({ params, body }, res) {
+  addThought({ params, body }, res) {
     console.log(body);
     Thoughts.create(body)
       .then(({ _id }) => {

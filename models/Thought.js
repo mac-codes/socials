@@ -1,9 +1,8 @@
-const { schema, model } = require('mogoose');
-const dateFormat = require('../utils/dateFormat');
-const reactionTime = require('./Reaction');
+const { Schema, model } = require('mongoose');
+const reactionSchema = require('./Reaction');
 
 // thoughts schema
-const thoughtsSchema = new schema(
+const thoughtsSchema = new Schema(
   {
     thoughtText: {
       type: String,
